@@ -1,0 +1,21 @@
+body {
+    width: 800px;
+    margin: 0 auto;
+}
+
+main {
+    display: flex;
+}
+
+#todos, #havedones {
+    color: red;
+    font-size: 50px;
+}
+
+.container {
+    border: 1px solid black;
+    width: 50%;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+}
