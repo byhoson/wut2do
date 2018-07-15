@@ -15,12 +15,40 @@
     </header>
     <main>
         <div class="container">
-            <span id="todos">TODOS</span>
+            <span id="todos">TODO</span>
+            <span>
+                <% if(locals.what) { %>
+                    <p>
+                        <%= what %>
+                    </p>
+                <% } %>
+            </span>
+            <button id="add">Add</button>
         </div>
         <div class="container">
-            <span id="havedones">HAVEDONES</span>
+            <span id="havedones">HAVEDONE</span>
+            <button>Empty</button>
         </div>
     </main>
+
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form action="/add" method="POST">
+                <input type="text" name="what">
+                <input type="date" name="due">
+                <input type="submit">
+            </form>
+        </div>
+
+    </div>
+
+
+    <script src="js/main.js"></script>
 </body>
 
 </html>
