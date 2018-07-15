@@ -1,0 +1,11 @@
+{
+  "name": "wut2do",
+  "version": "1.0.0",
+  "description": "a simple todo list just for fun",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT"
+}
