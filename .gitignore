@@ -1,3 +1,5 @@
 #dependencies
 /node_modules
-/hello.txt
+
+#db password
+/db.js
