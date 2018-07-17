@@ -34,6 +34,14 @@ app.get('/', (req, res) => {
     })
 })
 
+app.get('/todo/:_id', (req, res) => {
+
+    let _id = req.params._id
+    res.send(_id)
+
+
+})
+
 app.post('/add', (req, res) => {
     db.collection('todos').insertOne({
         what: req.body.what,

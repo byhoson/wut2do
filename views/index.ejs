@@ -18,9 +18,11 @@
             <span id="todos">TODO</span>
             
             <% for(let i=0; i<todos.length; i++) { %>
-                <ol>
-                    <%= todos[i].what %>
-                </ol>
+                <a href="/todo/<%= todos[i]._id %>">
+                    <ol>
+                        <%= todos[i].what %>
+                    </ol>
+                </a>
             <% } %>
             
             <button id="add">Add</button>
