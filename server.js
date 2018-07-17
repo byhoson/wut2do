@@ -28,9 +28,22 @@ db.collection('todos').insertOne({ test: 'hello' }, (err, result) => {
 
 
 app.get('/', (req, res) => {
-    res.render('index.ejs')
+    db.collection('todos').find().toArray((err, todos) => {
+        if (err) return console.log(err)
+        res.render('index.ejs', { todos: todos })
+    })
 })
 
 app.post('/add', (req, res) => {
-    res.render('index', { what: req.body.what })
+    db.collection('todos').insertOne({
+        what: req.body.what,
+        due: req.body.due,
+        des: req.body.des,
+        done: 0
+    }, (err, result) => {
+        if (err) return console.log(err)
+        console.log('saved to database')
+    })
+    //console.log(req.body)
+    res.redirect('/')
 })

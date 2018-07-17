@@ -11,18 +11,18 @@
 
 <body>
     <header>
-        <img src="img/logo.png" alt="logo">
+        <a href="/"><img src="img/logo.png" alt="logo"></a>
     </header>
     <main>
         <div class="container">
             <span id="todos">TODO</span>
-            <span>
-                <% if(locals.what) { %>
-                    <p>
-                        <%= what %>
-                    </p>
-                <% } %>
-            </span>
+            
+            <% for(let i=0; i<todos.length; i++) { %>
+                <ol>
+                    <%= todos[i].what %>
+                </ol>
+            <% } %>
+            
             <button id="add">Add</button>
         </div>
         <div class="container">
@@ -39,8 +39,9 @@
         <div class="modal-content">
             <span class="close">&times;</span>
             <form action="/add" method="POST">
-                <input type="text" name="what">
+                <input type="text" name="what" placeholder="what">
                 <input type="date" name="due">
+                <input type="text" name="des" placeholder="description">
                 <input type="submit">
             </form>
         </div>
