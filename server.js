@@ -35,7 +35,7 @@ app.get('/todo/:_id', (req, res) => {
     let _id = req.params._id
     db.collection('todos').findOne({ _id: ObjectId(_id) }, (err, todo) => {
         if (err) return console.log(err)
-        res.render('todo.ejs', {
+        res.render('detail.ejs', {
             what: todo.what,
             due: todo.due,
             des: todo.des
