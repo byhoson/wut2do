@@ -2,6 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
 const MongoClient = require('mongodb').MongoClient
+const ObjectId = require('mongodb').ObjectId;
 const pw = require('./db').pw
 
 let db
@@ -30,6 +31,7 @@ db.collection('todos').insertOne({ test: 'hello' }, (err, result) => {
 app.get('/', (req, res) => {
     db.collection('todos').find().toArray((err, todos) => {
         if (err) return console.log(err)
+        //console.log(todos)
         res.render('index.ejs', { todos: todos })
     })
 })
@@ -37,6 +39,11 @@ app.get('/', (req, res) => {
 app.get('/todo/:_id', (req, res) => {
 
     let _id = req.params._id
+    db.collection('todos').findOne({ _id: ObjectId(_id) }, (err, todo) => {
+        if (err) return console.log(err)
+        console.log("success!")
+    })
+
     res.send(_id)
 
 
