@@ -59,3 +59,7 @@ main {
     text-decoration: none;
     cursor: pointer;
 }
+
+li {
+    display: flex;
+}

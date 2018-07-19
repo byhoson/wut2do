@@ -29,7 +29,7 @@ app.get('/', (req, res) => {
     })
 })
 
-/********************************************/
+
 app.get('/todo/:_id', (req, res) => {
 
     const _id = req.params._id
@@ -45,7 +45,25 @@ app.get('/todo/:_id', (req, res) => {
 
 
 })
-/********************************************/
+
+app.post('/done/:_id', (req, res) => {
+    const _id = req.params._id
+
+    db.collection('todos').updateOne(
+        { _id: ObjectId(_id) },
+        {
+            $set: {
+                done: 1
+            }
+        },
+        (err, result) => {
+            if (err) return console.log(err)
+            console.log("updated done")
+
+        }
+    )
+    res.redirect('/')
+})
 
 app.post('/add', (req, res) => {
     db.collection('todos').insertOne({

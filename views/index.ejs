@@ -14,19 +14,46 @@
     <main>
         <div class="container">
             <span id="todos">TODO</span>
-            
+
+            <ol>
             <% for(let i=0; i<todos.length; i++) { %>
-                <a href="/todo/<%= todos[i]._id %>">
-                    <ol>
-                        <%= todos[i].what %>
-                    </ol>
-                </a>
+                <% if(todos[i].done == 0) { %>
+                <li>
+                    <a href="/todo/<%= todos[i]._id %>">
+                        <span>
+                            <%= todos[i].what %>
+                        </span>
+                    </a>
+                    <form method="POST" action="/done/<%= todos[i]._id %>">
+                        <input type="submit" value="done">
+                    </form>
+                </li>
+                <% } %>
             <% } %>
-            
+            </ol>
+
             <button id="add">Add</button>
         </div>
         <div class="container">
             <span id="havedones">HAVEDONE</span>
+
+            <ol>
+            <% for(let i=0; i<todos.length; i++) { %>
+                <% if(todos[i].done == 1) { %>
+                <li>
+                    <a href="/todo/<%= todos[i]._id %>">
+                        <span>
+                            <%= todos[i].what %>
+                        </span>
+                    </a>
+                    <form method="POST" action="/done/<%= todos[i]._id %>">
+                        <input type="submit" value="done">
+                    </form>
+                </li>
+                <% } %>
+            <% } %>
+            </ol>
+
             <button>Empty</button>
         </div>
     </main>
