@@ -3,6 +3,9 @@
     <%= due %>
     <%= des %>
     <button id="update">Update</button>
+    <form action="/delete/<%= _id %>" method="POST">
+        <input type="submit" value="Delete">
+    </form>
     <div id="myModal" class="modal">
 
         <!-- Modal content -->

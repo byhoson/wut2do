@@ -78,3 +78,14 @@ app.post('/update/:_id', (req, res) => {
     )
     res.redirect(`/todo/${_id}`)
 })
+
+app.post('/delete/:_id', (req, res) => {
+    const _id = req.params._id
+
+    db.collection('todos').findOneAndDelete({ _id: ObjectId(_id) }, (err, result) => {
+        if (err) return console.log(err)
+        console.log('deleted')
+    })
+
+    res.redirect(`/`)
+})
