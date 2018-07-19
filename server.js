@@ -32,13 +32,14 @@ app.get('/', (req, res) => {
 /********************************************/
 app.get('/todo/:_id', (req, res) => {
 
-    let _id = req.params._id
+    const _id = req.params._id
     db.collection('todos').findOne({ _id: ObjectId(_id) }, (err, todo) => {
         if (err) return console.log(err)
         res.render('detail.ejs', {
             what: todo.what,
             due: todo.due,
-            des: todo.des
+            des: todo.des,
+            _id: _id
         })
     })
 
@@ -57,4 +58,23 @@ app.post('/add', (req, res) => {
         console.log('saved to database')
     })
     res.redirect('/')
+})
+
+app.post('/update/:_id', (req, res) => {
+    const _id = req.params._id
+
+    db.collection('todos').updateOne(
+        { _id: ObjectId(_id) },
+        {
+            $set: {
+                due: req.body.due,
+                des: req.body.des
+            }
+        },
+        (err, result) => {
+            if (err) return console.log(err)
+            //console.log(result)
+        }
+    )
+    res.redirect(`/todo/${_id}`)
 })
