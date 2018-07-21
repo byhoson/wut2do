@@ -65,6 +65,25 @@ app.post('/done/:_id', (req, res) => {
     res.redirect('/')
 })
 
+app.post('/undone/:_id', (req, res) => {
+    const _id = req.params._id
+
+    db.collection('todos').updateOne(
+        { _id: ObjectId(_id) },
+        {
+            $set: {
+                done: 0
+            }
+        },
+        (err, result) => {
+            if (err) return console.log(err)
+            console.log("updated done")
+
+        }
+    )
+    res.redirect('/')
+})
+
 app.post('/add', (req, res) => {
     db.collection('todos').insertOne({
         what: req.body.what,
