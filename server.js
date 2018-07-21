@@ -126,3 +126,11 @@ app.post('/delete/:_id', (req, res) => {
 
     res.redirect(`/`)
 })
+
+app.post('/empty', (req, res) => {
+    db.collection('todos').deleteMany({ done: 1 }, (err, result) => {
+        if (err) return console.log(err)
+        console.log("deleted")
+        res.redirect('/')
+    })
+})
