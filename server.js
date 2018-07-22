@@ -4,9 +4,11 @@ const app = express()
 const MongoClient = require('mongodb').MongoClient
 const ObjectId = require('mongodb').ObjectId;
 const pw = require('./db').pw
+//const test = require('./routes/test')
 
 let db
 
+//app.use('/', test)
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'))
 app.set('view engine', 'ejs')
@@ -20,7 +22,6 @@ MongoClient.connect(`mongodb://user1:${pw}@ds137601.mlab.com:37601/wut2do`, { us
     })
 })
 
-
 app.get('/', (req, res) => {
     db.collection('todos').find().toArray((err, todos) => {
         if (err) return console.log(err)
@@ -28,7 +29,6 @@ app.get('/', (req, res) => {
         res.render('index.ejs', { todos: todos })
     })
 })
-
 
 app.get('/todo/:_id', (req, res) => {
 
