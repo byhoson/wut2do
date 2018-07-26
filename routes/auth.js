@@ -5,7 +5,10 @@ const bodyParser = require('body-parser')
 const sha256 = require('sha256')
 const salt = 'efef$%#^#'
 const FileStore = require('session-file-store')(session)
+const MongoClient = require('mongodb').MongoClient
+const dbpw = require('../db').pw
 
+let db
 
 const user = {
     username: 'byhoson',
@@ -47,7 +50,17 @@ route.get('/signup', (req, res) => {
 })
 
 route.post('/signup', (req, res) => {
-    res.send('sign up done!')
+    const uname = req.body.username
+    const pw = sha256(req.body.password + salt)
+    MongoClient.connect(`mongodb://user1:${dbpw}@ds137601.mlab.com:37601/wut2do`, { useNewUrlParser: true }, (err, client) => {
+        if (err) return console.log(err)
+        db = client.db('wut2do')
+    })
+    db.collection('users').insertOne({ username: uname, password: pw }, (err, result) => {
+        if (err) return console.log(err)
+        res.send('sign up done!')
+    })
+
 })
 
 
