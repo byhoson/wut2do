@@ -33,8 +33,8 @@ MongoClient.connect(`mongodb://user1:${pw}@ds137601.mlab.com:37601/wut2do`, { us
 app.get('/', (req, res) => {
     db.collection('todos').find().toArray((err, todos) => {
         if (err) return console.log(err)
-        console.log(req.session.greeting)
-        res.render('index.ejs', { todos: todos })
+        //console.log(req.session.greeting)
+        res.render('index.ejs', { todos: todos, signed_in: req.session.signed_in })
     })
 })
 

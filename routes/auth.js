@@ -28,16 +28,16 @@ route.get('/', (req, res) => {
 route.post('/', (req, res) => {
     const uname = req.body.username
     const pw = sha256(req.body.password + salt)
-    if (uname == user.username && pw == user.password) req.session.greeting = 'welcome'
-    else req.session.greeting = 'fuck off'
-    res.redirect('/auth/login')
+    if (uname == user.username && pw == user.password) req.session.signed_in = true
+    res.redirect('/')
 })
 
 
 
-route.get('/login', (req, res) => {
+route.get('/signout', (req, res) => {
     //console.log(req.session)
-    res.send(req.session.greeting)
+    delete req.session.signed_in
+    res.redirect('/')
 })
 
 
