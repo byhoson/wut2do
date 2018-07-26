@@ -3,3 +3,6 @@
 
 #db password
 /db.js
+
+#session store
+/sessions

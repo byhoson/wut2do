@@ -4,14 +4,22 @@ const app = express()
 const MongoClient = require('mongodb').MongoClient
 const ObjectId = require('mongodb').ObjectId;
 const pw = require('./db').pw
-//const test = require('./routes/test')
+const session = require('express-session')
+const auth = require('./routes/auth')
+const FileStore = require('session-file-store')(session)
 
 let db
 
-//app.use('/', test)
+app.use('/auth', auth)
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'))
 app.set('view engine', 'ejs')
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+    store: new FileStore()
+}))
 
 MongoClient.connect(`mongodb://user1:${pw}@ds137601.mlab.com:37601/wut2do`, { useNewUrlParser: true }, (err, client) => {
     if (err) return console.log(err)
@@ -25,7 +33,7 @@ MongoClient.connect(`mongodb://user1:${pw}@ds137601.mlab.com:37601/wut2do`, { us
 app.get('/', (req, res) => {
     db.collection('todos').find().toArray((err, todos) => {
         if (err) return console.log(err)
-        //console.log(todos)
+        console.log(req.session.greeting)
         res.render('index.ejs', { todos: todos })
     })
 })
