@@ -24,6 +24,11 @@ route.use(session({
     store: new FileStore()
 }))
 
+MongoClient.connect(`mongodb://user1:${dbpw}@ds137601.mlab.com:37601/wut2do`, { useNewUrlParser: true }, (err, client) => {
+    if (err) return console.log(err)
+    db = client.db('wut2do')
+})
+
 route.get('/', (req, res) => {
     res.render('auth.ejs')
 })
@@ -31,8 +36,12 @@ route.get('/', (req, res) => {
 route.post('/', (req, res) => {
     const uname = req.body.username
     const pw = sha256(req.body.password + salt)
-    if (uname == user.username && pw == user.password) req.session.signed_in = true
-    res.redirect('/')
+    db.collection('users').findOne({ username: uname }, (err, result) => {
+        if (err) return console.log(err)
+        if (uname == result.username && pw == result.password) req.session.signed_in = true
+        res.redirect('/')
+    })
+
 })
 
 
@@ -52,15 +61,17 @@ route.get('/signup', (req, res) => {
 route.post('/signup', (req, res) => {
     const uname = req.body.username
     const pw = sha256(req.body.password + salt)
-    MongoClient.connect(`mongodb://user1:${dbpw}@ds137601.mlab.com:37601/wut2do`, { useNewUrlParser: true }, (err, client) => {
-        if (err) return console.log(err)
-        db = client.db('wut2do')
-    })
-    db.collection('users').insertOne({ username: uname, password: pw }, (err, result) => {
-        if (err) return console.log(err)
-        res.send('sign up done!')
-    })
+    const pw2 = sha256(req.body.password2 + salt)
 
+    db.collection('users').findOne({ username: uname }, (err, result) => {
+        if (err) return console.log(err)
+        if (!result && pw == pw2) {
+            db.collection('users').insertOne({ username: uname, password: pw }, (err, result) => {
+                if (err) return console.log(err)
+                res.send('sign up done!')
+            })
+        } else res.send('Do it again!')
+    })
 })
 
 
