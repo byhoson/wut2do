@@ -5,3 +5,5 @@
    session file store ------------------ done!
 4. customized todo --------------------- done!
 5. chatbot
+6. deploy
+7. add some design in frontend
