@@ -38,7 +38,7 @@ route.post('/', (req, res) => {
     const pw = sha256(req.body.password + salt)
     db.collection('users').findOne({ username: uname }, (err, result) => {
         if (err) return console.log(err)
-        if (uname == result.username && pw == result.password) req.session.signed_in = true
+        if (uname == result.username && pw == result.password) req.session.username = uname
         res.redirect('/')
     })
 
@@ -48,7 +48,7 @@ route.post('/', (req, res) => {
 
 route.get('/signout', (req, res) => {
     //console.log(req.session)
-    delete req.session.signed_in
+    delete req.session.username
     res.redirect('/')
 })
 

@@ -34,7 +34,7 @@ app.get('/', (req, res) => {
     db.collection('todos').find().toArray((err, todos) => {
         if (err) return console.log(err)
         //console.log(req.session.greeting)
-        res.render('index.ejs', { todos: todos, signed_in: req.session.signed_in })
+        res.render('index.ejs', { todos: todos, username: req.session.username })
     })
 })
 
@@ -94,6 +94,7 @@ app.post('/undone/:_id', (req, res) => {
 
 app.post('/add', (req, res) => {
     db.collection('todos').insertOne({
+        username: req.session.username,
         what: req.body.what,
         due: req.body.due,
         des: req.body.des,
