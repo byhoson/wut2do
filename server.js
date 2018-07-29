@@ -31,7 +31,7 @@ MongoClient.connect(`mongodb://user1:${pw}@ds137601.mlab.com:37601/wut2do`, { us
 })
 
 app.get('/', (req, res) => {
-    db.collection('todos').find().toArray((err, todos) => {
+    db.collection('todos').find({ username: req.session.username }).toArray((err, todos) => {
         if (err) return console.log(err)
         //console.log(req.session.greeting)
         res.render('index.ejs', { todos: todos, username: req.session.username })
@@ -44,6 +44,7 @@ app.get('/todo/:_id', (req, res) => {
     db.collection('todos').findOne({ _id: ObjectId(_id) }, (err, todo) => {
         if (err) return console.log(err)
         res.render('detail.ejs', {
+            username: req.session.username,
             what: todo.what,
             due: todo.due,
             des: todo.des,
@@ -93,6 +94,8 @@ app.post('/undone/:_id', (req, res) => {
 })
 
 app.post('/add', (req, res) => {
+    if (!req.session.username) return res.redirect('/auth')
+
     db.collection('todos').insertOne({
         username: req.session.username,
         what: req.body.what,
